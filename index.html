@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Веб-бет</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+      }
+      .container {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          text-align: center;
+      }
+      .button {
+          background-color: #007BFF;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      .button:hover {
+          background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Қош келдіңіз!</h1>
+      <button class="button">Басыңыз</button>
+    </div>
+    <script>
+      document.querySelector('.button').addEventListener('click', fetchData);
+
+      function fetchData() {
+          const container = document.querySelector('.container');
+          const message = document.createElement('p');
+          message.textContent = 'Деректер алынуда...';
+          container.appendChild(message);
+
+          fetch('https://api.jsonbin.io/v3/b/67965b2ee41b4d34e47efbb7')
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  message.remove();
+                  const successMessage = document.createElement('p');
+                  successMessage.textContent = 'Деректер сәтті алынды!';
+                  container.appendChild(successMessage);
+                  console.log(data);
+              })
+              .catch(error => {
+                  message.textContent = `Қате туындады: ${error.message}`;
+              });
+      }
+    </script>
+    <script>
+      document.querySelector('.button').addEventListener('click', fetchData);
+
+      function fetchData() {
+          const container = document.querySelector('.container');
+          const message = document.createElement('p');
+          message.textContent = 'Деректер алынуда...';
+          container.appendChild(message);
+
+          fetch('https://api.jsonbin.io/v3/b/67965b2ee41b4d34e47efbb7')
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  message.remove();
+                  const tasks = data.tasks;
+                  const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+                  const taskMessage = document.createElement('p');
+                  taskMessage.textContent = `Рандом тапсырма: ${randomTask}`;
+                  container.appendChild(taskMessage);
+              })
+              .catch(error => {
+                  message.textContent = `Қате туындады: ${error.message}`;
+              });
+      }
+    </script>
+  </body>
+</html>
